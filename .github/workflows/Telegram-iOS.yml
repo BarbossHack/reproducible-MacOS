@@ -14,7 +14,7 @@ jobs:
 
           brew install aria2
 
-          aria2c -x 20 -s 20 -j 20 "https://updates.cdn-apple.com/2025FallFCS/fullrestores/093-37622/CE01FAB2-7F26-48EE-AEE4-5E57A7F6D8BB/UniversalMac_26.0_25A354_Restore.ipsw"
+          aria2c -x 16 -s 16 -j 16 "https://updates.cdn-apple.com/2025FallFCS/fullrestores/093-37622/CE01FAB2-7F26-48EE-AEE4-5E57A7F6D8BB/UniversalMac_26.0_25A354_Restore.ipsw"
 
           hdiutil attach UniversalMac_26.0_25A354_Restore.ipsw
 
