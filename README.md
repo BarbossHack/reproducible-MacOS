@@ -12,6 +12,8 @@ ipsw extract --files --dmg sys --lookup UniversalMac_26.0_25A354_Restore.ipsw -o
 ipsw fw aea ./extract/25A354__MacOS/090-87790-616.dmg.aea --key-val "base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto=" -o ./decrypted
 # OR
 aea decrypt -i ./extract/25A354__MacOS/090-87790-616.dmg.aea -o ./decrypted/090-87790-616.dmg -key-value 'base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto='
+
+hdiutil attach ./decrypted/090-87790-616.dmg -mountpoint /Volumes/MetalToolchain
 ```
 
 <https://github.com/kinnay/AEA>
