@@ -16,6 +16,7 @@ jobs:
           brew install blacktop/tap/ipsw
 
           ipsw extract --files --dmg sys --lookup UniversalMac_26.0_25A354_Restore.ipsw -o ./extract/
+          rm -f UniversalMac_26.0_25A354_Restore.ipsw
 
           mkdir -p decrypted
 
@@ -23,6 +24,8 @@ jobs:
 
           aea decrypt -i ./extract/25A354__MacOS/090-87790-616.dmg.aea -o ./decrypted/090-87790-616.dmg -key-value 'base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto='
 
+          rm -rf ./extract
+
           hdiutil attach ./decrypted/090-87790-616.dmg -mountpoint /Volumes/MetalToolchain
 
-          ls -Rlsah /Volumes/MetalToolchain
+          tree -h /Volumes/MetalToolchain
