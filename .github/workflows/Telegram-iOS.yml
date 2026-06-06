@@ -1,0 +1,34 @@
+name: Telegram-iOS
+
+on:
+  push:
+
+env:
+  VERSION: "12.7"
+
+jobs:
+  applestore-verify:
+    runs-on: macos-26
+    steps:
+      - name: build
+        run: |
+          set -x
+
+          VERSION=12.7
+          XCODE_VERSION=26.2
+
+          rm -rf /Applications/Xcode.app
+          ditto /Applications/Xcode_${XCODE_VERSION}.app /Applications/Xcode.app
+          # rm -rf /Applications/Xcode_*
+          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+          bazel clean --expunge
+
+          xcrun metal --version || true
+          xcodebuild -version || true
+          xcode-select -p || true
+
+          sleep 1
+          xcodebuild -showComponent metalToolchain || true
+          sleep 1
