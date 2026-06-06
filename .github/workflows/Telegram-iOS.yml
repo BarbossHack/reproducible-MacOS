@@ -19,8 +19,8 @@ jobs:
 
           mkdir -p decrypted
 
-          # ipsw fw aea ./extract/25A354__MacOS/090-87790-616.dmg.aea --key-val "base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto=" -o ./decrypted
+          ipsw fw aea ./extract/25A354__MacOS/090-87790-616.dmg.aea --key-val "base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto=" -o ./decrypted
 
-          aea decrypt -i ./extract/25A354__MacOS/090-87790-616.dmg.aea -o ./decrypted/090-87790-616.dmg -key-value 'base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto='
+          # aea decrypt -i ./extract/25A354__MacOS/090-87790-616.dmg.aea -o ./decrypted/090-87790-616.dmg -key-value 'base64:vftoDg1PNe1a3GUyeup9lKrzIspNicLYdT2mEOjCkto='
 
           ls -Rlsah ./decrypted/
