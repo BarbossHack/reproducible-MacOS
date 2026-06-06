@@ -28,4 +28,4 @@ jobs:
 
           hdiutil attach ./decrypted/090-87790-616.dmg -mountpoint /Volumes/MetalToolchain
 
-          tree -h /Volumes/MetalToolchain
+          find /Volumes/MetalToolchain/ -iname "*metal*"
