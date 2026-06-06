@@ -3,9 +3,6 @@ name: Telegram-iOS
 on:
   push:
 
-env:
-  VERSION: "12.7"
-
 jobs:
   applestore-verify:
     runs-on: macos-26
@@ -14,21 +11,7 @@ jobs:
         run: |
           set -x
 
-          VERSION=12.7
-          XCODE_VERSION=26.2
-
-          rm -rf /Applications/Xcode.app
-          ditto /Applications/Xcode_${XCODE_VERSION}.app /Applications/Xcode.app
-          # rm -rf /Applications/Xcode_*
-          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
-          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-
-          bazel clean --expunge
-
-          xcrun metal --version || true
-          xcodebuild -version || true
-          xcode-select -p || true
-
-          sleep 1
-          xcodebuild -showComponent metalToolchain || true
-          sleep 1
+          curl -L0 "https://updates.cdn-apple.com/2025FallFCS/fullrestores/093-37622/CE01FAB2-7F26-48EE-AEE4-5E57A7F6D8BB/UniversalMac_26.0_25A354_Restore.ipsw"
+          hdiutil attach UniversalMac_26.0_25A354_Restore.ipsw
+          ls -lsah /Volumes/
+          ls -Rlsah /Volumes/UniversalMac\ 26.0\ 25A354\ Restore/
