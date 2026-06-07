@@ -13,10 +13,7 @@ jobs:
       - name: Start mitmdump en arrière-plan
         run: |
           mitmdump \
-            --listen-port 8080 \
-            --save-stream-file /tmp/flows.mitm \
-            --flow-detail 3 \
-            > /tmp/mitm.log 2>&1 &
+            --listen-port 8080 > /tmp/mitm.log 2>&1 &
           echo $! > /tmp/mitm.pid
           sleep 2
           ls ~/.mitmproxy/
@@ -43,13 +40,14 @@ jobs:
         run: |
           echo DEVELOPER_DIR=/Applications/Xcode_26.2.app/Contents/Developer >> "$GITHUB_ENV"
           sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
-          xcodebuild -downloadComponent MetalToolchain || true
+          xcodebuild -downloadComponent MetalToolchain
+          sleep 20
 
       - name: Arrêter mitmdump et afficher les flows
         run: |
           set -x
           kill $(cat /tmp/mitm.pid) || true
-          sleep 1
+          sleep 10
           echo "=== FLOWS CAPTURÉS ==="
           # mitmdump -n -r /tmp/flows.mitm --flow-detail 3
           echo "=== LOG MITM ==="
