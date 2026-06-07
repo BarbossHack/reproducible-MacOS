@@ -12,5 +12,19 @@ jobs:
           set -x
           curl -L "https://alt-eu-central-1-12.transferxl-download.com/m-euc1-11/0901eb6beb2ead087dd73db0ad174f87-0.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VRUC2IB382WVAN635LVP%2F20260607%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260607T113842Z&X-Amz-Expires=900&X-Amz-Signature=bfc86dc911e92c224cfce155c0065476109d3df808c94dbd68def1afdc075bd6&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22TransferXL-08VKqd7HHD9Gg.zip%22" -o xc.zip
           rm -rf /Applications/Xcode*
-          unzip xc.zip -d /Applications/
+          unzip xc.zip
+          # Crée un dossier temporaire pour l'extraction
+          mkdir -p ~/xcode_extract
+          xar -xf Xcode_26.2_Release_Candidate_Apple_silicon.xip -C ~/xcode_extract
+          sudo mv ~/xcode_extract/Xcode.app /Applications/Xcode.app
           ls -la /Applications/
+
+          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+          sleep 1
+          xcrun metal --version || true
+          sleep 1
+          xcodebuild -version || true
+          sleep 1
+          xcode-select -p || true
