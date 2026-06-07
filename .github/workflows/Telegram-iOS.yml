@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Install mitmproxy
         run: |
-          brew install xcodesorg/made/xcodes
+          brew install xcodesorg/made/xcodes || true
 
           xcodes --help
 
