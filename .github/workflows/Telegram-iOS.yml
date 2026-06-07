@@ -11,10 +11,6 @@ jobs:
         run: |
           set -x
 
-          for asset in /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset; do
-              echo "----------------------------------- $(basename $asset) ------------------------------------"
-              find "$asset" -name "*.plist" ! -path "*/Restore/*" \
-                -exec plutil -p {} \; 2>/dev/null \
-                | grep -i "build\|version\|release"
-              sleep 5
-          done
+          hdiutil attach /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/058e1b31129b642e40598a87b55aa54b2a29e538.asset/AssetData/Restore/022-21521-014.dmg -mountpoint /tmp/metal_tc -nobrowse -quiet
+
+          find /tmp/metal_tc -name "metal" -type f | head -1 | xargs -I{} {} --version
