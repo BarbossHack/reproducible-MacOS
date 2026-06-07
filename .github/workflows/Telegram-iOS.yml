@@ -29,7 +29,7 @@ jobs:
           sleep 1
           hdiutil attach 32023.850_022-20660-054.dmg
           sleep 1
-          ls -lsah /Volumes/MetalToolchainCryptex/
+          ls -Rlsah /Volumes/MetalToolchainCryptex/
           sleep 1
           ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 1
