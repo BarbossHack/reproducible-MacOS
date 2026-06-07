@@ -14,7 +14,12 @@ jobs:
           rm -rf /Applications/Xcode*
           unzip xc.zip
           rm xc.zip
-          xar -xf Xcode_26.2_Release_Candidate_Apple_silicon.xip -C /Applications/
+          mkdir temp temp2
+          xar -xf Xcode_26.2_Release_Candidate_Apple_silicon.xip -C ./temp/
+          ls -lsah ./temp/
+          file ./temp/Content
+          xar -xf ./temp/Content/ -C ./temp2/
+          ls -lsah ./temp2/
           rm Xcode_26.2_Release_Candidate_Apple_silicon.xip
           ls -la /Applications/
 
