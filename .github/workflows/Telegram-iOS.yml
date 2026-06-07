@@ -13,7 +13,7 @@ jobs:
 
           cat ~/.bazelrc || true
 
-          bazel info output_base
+          bazel --help || true
 
           ls -lsah /private/var/tmp/
 
@@ -21,4 +21,4 @@ jobs:
           rm -rf /private/var/tmp/_bazel_runner
 
           echo "startup --output_user_root=/private/var/tmp/_bazel_containerhost" >> ~/.bazelrc
-          bazel info output_base
+          bazel --help || true
