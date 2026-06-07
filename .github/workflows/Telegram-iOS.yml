@@ -11,4 +11,13 @@ jobs:
         run: |
           set -x
 
-          ls /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*/AssetData/Restore/*.dmg
+          echo DEVELOPER_DIR=/Applications/Xcode_26.2.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
+
+          xcodebuild -downloadComponent MetalToolchain -exportPath /Users/Shared/MetalToolchain_864/
+          ls -la /Users/Shared/MetalToolchain_864/
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: MetalToolchain_864
+          path: /Users/Shared/MetalToolchain_864
