@@ -21,3 +21,5 @@ hdiutil attach ./decrypted/090-87790-616.dmg -mountpoint /Volumes/MetalToolchain
 <https://github.com/dhinakg/aeota>
 
 <https://devimages-cdn.apple.com/downloads/xcode/simulators/index2.dvtdownloadableindex>
+
+<https://xcodereleases.com/>

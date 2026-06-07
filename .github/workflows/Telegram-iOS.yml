@@ -3,33 +3,26 @@ name: Telegram-iOS
 on:
   push:
 
+# TODO: put again the MITM with this xcode, it will succeed as it WILL donwload it
+# xcodebuild: error: Failed fetching catalog for assetType (com.apple.MobileAsset.MetalToolchain), serverParameters ({
+#     RequestedBuild = 17C48;
+# })
+
 jobs:
   applestore-verify:
     runs-on: macos-26
     steps:
       - run: |
           set -x
-          curl -L "https://alt-eu-central-1-12.transferxl-download.com/m-euc1-11/0901eb6beb2ead087dd73db0ad174f87-0.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VRUC2IB382WVAN635LVP%2F20260607%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260607T130220Z&X-Amz-Expires=900&X-Amz-Signature=2325c71ee2e4b1de08e3f75ea2faee7e65db84a493534709038a5ca8369267a1&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22TransferXL-08VKqd7HHD9Gg.zip%22" -o xc.zip
-          rm -rf /Applications/Xcode*
-          unzip xc.zip
-          rm xc.zip
-          unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip /Applications/
+          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
 
-          ls -la /Applications/
+          curl -L "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/32023.850_022-20660-054.dmg" -o 32023.850_022-20660-054.dmg
 
+          rm -rf /Applications/Xcode.app
+          ditto /Applications/Xcode_26.2.app /Applications/Xcode.app
+          rm -rf /Applications/Xcode_*
           echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
-          xcodebuild -downloadComponent MetalToolchain
-
+          xcrun metal --version
           sleep 1
-          xcrun metal --version || true
-          sleep 1
-          xcodebuild -version || true
-          sleep 1
-          xcode-select -p || true
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v6
-        with:
-          name: applestore-build
-          path: /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/022-20660-054.dmg
