@@ -14,7 +14,9 @@ jobs:
           unzip xc.zip
           rm xc.zip
           mkdir temp temp2
+          unxip --help || true
           unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip
+          ls -lsah .
           
           ls -la /Applications/
 
