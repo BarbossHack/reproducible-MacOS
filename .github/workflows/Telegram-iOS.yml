@@ -14,18 +14,8 @@ jobs:
           unzip xc.zip
           rm xc.zip
           mkdir temp temp2
-          xar -xf Xcode_26.2_Release_Candidate_Apple_silicon.xip -C ./temp/
-          ls -lsah ./temp/
-          file ./temp/Content
-          mkdir -p extracted
-          cat ./temp/Content | lzfse -decode > ./temp/Xcode_raw.cpio
-          ls -Rlsah ./temp
-          ditto -v --rsrc ./temp/Content ./extracted
-          ls -lsah ./extracted/
-          sleep 1
-          file ./extracted/Content
-          sleep 1
-          rm Xcode_26.2_Release_Candidate_Apple_silicon.xip
+          unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip
+          
           ls -la /Applications/
 
           echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
