@@ -41,6 +41,8 @@ jobs:
 
       - name: Run xcodebuild downloadComponent
         run: |
+          echo DEVELOPER_DIR=/Applications/Xcode_26.2.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
           xcodebuild -downloadComponent MetalToolchain || true
 
       - name: Arrêter mitmdump et afficher les flows
