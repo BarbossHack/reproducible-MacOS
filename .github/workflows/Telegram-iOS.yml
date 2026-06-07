@@ -9,10 +9,8 @@ jobs:
     steps:
       - name: Install mitmproxy
         run: |
-          ls -lsah /Applications/
-          echo DEVELOPER_DIR=/Applications/Xcode_26.1.app/Contents/Developer >> "$GITHUB_ENV"
-          sudo xcode-select -s /Applications/Xcode_26.1.app/Contents/Developer
+          brew install xcodesorg/made/xcodes
 
-          xcrun metal --version || true
-          xcodebuild -version || true
-          xcode-select -p || true
+          xcodes --help
+
+          ls -lsah /Applications/
