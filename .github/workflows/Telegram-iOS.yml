@@ -15,6 +15,10 @@ jobs:
           mitmdump \
             --listen-port 8080 \
             --save-stream-file /tmp/flows.mitm \
+            --flow-detail 3
+          mitmdump \
+            --listen-port 8080 \
+            --save-stream-file /tmp/flows.mitm \
             --flow-detail 3 \
             > /tmp/mitm.log 2>&1 &
           echo $! > /tmp/mitm.pid
@@ -38,20 +42,6 @@ jobs:
           sudo networksetup -setsecurewebproxy "$SERVICE" 127.0.0.1 8080
           sudo networksetup -setwebproxystate "$SERVICE" on
           sudo networksetup -setsecurewebproxystate "$SERVICE" on
-
-      - name: Start mitmdump en arrière-plan
-        run: |
-          mitmdump \
-            --listen-port 8080 \
-            --save-stream-file /tmp/flows.mitm \
-            --flow-detail 3
-          mitmdump \
-            --listen-port 8080 \
-            --save-stream-file /tmp/flows.mitm \
-            --flow-detail 3 \
-            > /tmp/mitm.log 2>&1 &
-          echo $! > /tmp/mitm.pid
-          sleep 2
 
       - name: Run xcodebuild downloadComponent
         run: |
