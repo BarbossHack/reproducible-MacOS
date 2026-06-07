@@ -8,57 +8,11 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Install mitmproxy
-        run: pip install mitmproxy
-
-      - name: Start mitmdump en arrière-plan
         run: |
-          mitmdump \
-            --listen-port 8080 > /tmp/mitm.log 2>&1 &
-          echo $! > /tmp/mitm.pid
-          sleep 2
-          ls ~/.mitmproxy/
+          ls -lsah /Applications/
+          echo DEVELOPER_DIR=/Applications/Xcode_26.3.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
 
-      - name: Trust le cert mitmproxy au niveau système
-        run: |
-          sudo security add-trusted-cert -d -r trustRoot \
-            -k /Library/Keychains/System.keychain \
-            ~/.mitmproxy/mitmproxy-ca-cert.pem
-
-      - name: Configurer le proxy système
-        run: |
-          # Récupère l'interface active
-          IFACE=$(route get default | grep interface | awk '{print $2}')
-          SERVICE=$(networksetup -listallnetworkservices | grep -v "^An" | head -1)
-          echo "Interface: $IFACE / Service: $SERVICE"
-
-          sudo networksetup -setwebproxy "$SERVICE" 127.0.0.1 8080
-          sudo networksetup -setsecurewebproxy "$SERVICE" 127.0.0.1 8080
-          sudo networksetup -setwebproxystate "$SERVICE" on
-          sudo networksetup -setsecurewebproxystate "$SERVICE" on
-
-      - name: Run xcodebuild downloadComponent
-        run: |
-          echo DEVELOPER_DIR=/Applications/Xcode_26.2.app/Contents/Developer >> "$GITHUB_ENV"
-          sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
-          xcodebuild -downloadComponent MetalToolchain &
-          sleep 40
-
-      - name: Arrêter mitmdump et afficher les flows
-        run: |
-          set -x
-          kill $(cat /tmp/mitm.pid) || true
-          sleep 10
-          echo "=== FLOWS CAPTURÉS ==="
-          # mitmdump -n -r /tmp/flows.mitm --flow-detail 3
-          echo "=== LOG MITM ==="
-          cat /tmp/mitm.log
-          ls -salh /tmp/flows.mitm
-          ls -salh /tmp/mitm.log
-
-      - name: Upload flows en artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mitm-flows
-          path: |
-            /tmp/flows.mitm
-            /tmp/mitm.log
+          xcrun metal --version || true
+          xcodebuild -version || true
+          xcode-select -p || true
