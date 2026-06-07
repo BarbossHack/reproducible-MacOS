@@ -10,10 +10,15 @@ jobs:
       - name: Install mitmproxy
         run: pip install mitmproxy
 
-      - name: Générer le cert CA mitmproxy
+      - name: Start mitmdump en arrière-plan
         run: |
-          # Lance brièvement mitmdump pour générer les certs
-          timeout 3 mitmdump --listen-port 8080 || true
+          mitmdump \
+            --listen-port 8080 \
+            --save-stream-file /tmp/flows.mitm \
+            --flow-detail 3 \
+            > /tmp/mitm.log 2>&1 &
+          echo $! > /tmp/mitm.pid
+          sleep 2
           ls ~/.mitmproxy/
 
       - name: Trust le cert mitmproxy au niveau système
