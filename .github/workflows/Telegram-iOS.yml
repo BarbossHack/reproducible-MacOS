@@ -15,6 +15,9 @@ jobs:
       - run: |
           set -x
           curl -L "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/32023.850_022-20660-054.dmg" -o 32023.850_022-20660-054.dmg
+          open 32023.850_022-20660-054.dmg
+          ls -lsah .
+          sleep 1
 
           rm -rf /Applications/Xcode.app
           ditto /Applications/Xcode_26.2.app /Applications/Xcode.app
