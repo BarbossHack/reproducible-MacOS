@@ -20,6 +20,8 @@ jobs:
           echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
+          xcodebuild -downloadComponent MetalToolchain
+
           sleep 1
           xcrun metal --version || true
           sleep 1
