@@ -11,14 +11,4 @@ jobs:
         run: |
           set -x
 
-          cat ~/.bazelrc || true
-
-          bazel --help || true
-
-          ls -lsah /private/var/tmp/
-
-          ditto /private/var/tmp/_bazel_runner /private/var/tmp/_bazel_containerhost
-          rm -rf /private/var/tmp/_bazel_runner
-
-          echo "startup --output_user_root=/private/var/tmp/_bazel_containerhost" >> ~/.bazelrc
-          bazel --help || true
+          ls /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*/AssetData/Restore/*.dmg
