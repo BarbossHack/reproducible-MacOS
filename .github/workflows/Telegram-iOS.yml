@@ -18,6 +18,8 @@ jobs:
           ls -lsah ./temp/
           file ./temp/Content
           mkdir -p extracted
+          cat ./temp/Content | lzfse -decode > ./temp/Xcode_raw.cpio
+          ls -Rlsah ./temp
           ditto -v --rsrc ./temp/Content ./extracted
           ls -lsah ./extracted/
           sleep 1
