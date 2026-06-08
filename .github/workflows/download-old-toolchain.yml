@@ -1,7 +1,7 @@
-name: Telegram-iOS
+name: download-old-toolchain
 
 on:
-  push:
+  workflow_dispatch:
 
 # TODO: put again the MITM with this xcode, it will succeed as it WILL donwload it
 # xcodebuild: error: Failed fetching catalog for assetType (com.apple.MobileAsset.MetalToolchain), serverParameters ({
@@ -9,7 +9,7 @@ on:
 # })
 
 jobs:
-  applestore-verify:
+  download:
     runs-on: macos-26
     steps:
       - run: |
