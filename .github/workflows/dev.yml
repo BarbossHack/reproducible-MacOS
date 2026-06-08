@@ -21,7 +21,7 @@ jobs:
           sudo unzip 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip -d ./extracted
 
           sudo mkdir -p /Library/Developer/Toolchains/
-          hdiutil attach ./extracted/AssetData/Restore/022-21521-014.dmg -mountpoint ./mounted/ -nobrowse -quiet
+          hdiutil attach ./extracted/AssetData/Restore/022-20660-054.dmg -mountpoint ./mounted/ -nobrowse -quiet
 
           sudo ditto ./mounted/Metal.xctoolchain /Library/Developer/Toolchains/
           sudo ls -lsah /Library/Developer/Toolchains/
