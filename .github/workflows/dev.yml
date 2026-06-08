@@ -26,7 +26,7 @@ jobs:
           sudo ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 2
 
-          hdiutil attach /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/*.dmg -nobrowse
+          sudo cryptexctl install /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/*.dmg
 
           # xcodebuild -downloadComponent MetalToolchain
           sleep 5
