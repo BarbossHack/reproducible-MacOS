@@ -35,6 +35,9 @@ jobs:
           sudo ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0/
           sleep 5
 
-          # xcodebuild -downloadComponent MetalToolchain
+          sudo echo "127.0.0.1 mesu.apple.com" >> /etc/hosts
+          sudo cat /etc/hosts
+          sleep 2
+          xcodebuild -downloadComponent MetalToolchain
           sleep 5
           xcrun metal --version
