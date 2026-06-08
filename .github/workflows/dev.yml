@@ -28,4 +28,6 @@ jobs:
           cat /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/com_apple_MobileAsset_MetalToolchain.xml
           sleep 5
 
+          xcodebuild -downloadComponent MetalToolchain
+          sleep 5
           xcrun metal --version
