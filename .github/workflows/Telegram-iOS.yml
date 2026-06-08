@@ -14,30 +14,5 @@ jobs:
     steps:
       - run: |
           set -x
-          curl -L "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/32023.850_022-20660-054.dmg" -o 32023.850_022-20660-054.dmg
-          open 32023.850_022-20660-054.dmg
-          ls -lsah .
-          sleep 1
-          ls -lsah /Volumes/
-          sleep 1
 
-          rm -rf /Applications/Xcode.app
-          ditto /Applications/Xcode_26.2.app /Applications/Xcode.app
-          rm -rf /Applications/Xcode_*
-          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
-          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-
-          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/4ab058bc1c53034b8c0a9baca6fba2d2b78bb965.asset/
-          sleep 1
-          sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
-          ls -lsah /Volumes/
-          sleep 1
-          hdiutil attach 32023.850_022-20660-054.dmg
-          sleep 1
-          ls -Rlsah /Volumes/MetalToolchainCryptex/
-          sleep 1
-          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
-          sleep 1
-
-          xcrun metal --version
-          sleep 1
+          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/4ab058bc1c53034b8c0a9baca6fba2d2b78bb965.asset/AssetData
