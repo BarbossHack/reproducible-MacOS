@@ -14,5 +14,27 @@ jobs:
     steps:
       - run: |
           set -x
+          curl -L "https://alt-eu-central-1-12.transferxl-download.com/m-euc1-11/0901eb6beb2ead087dd73db0ad174f87-0.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VRUC2IB382WVAN635LVP%2F20260608%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260608T214028Z&X-Amz-Expires=900&X-Amz-Signature=d4dee0216fbdfe0c728f894a27d65ceb29af09c945e75b60dbc53015699608c7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22TransferXL-08VKqd7HHD9Gg.zip%22" -o xc.zip
+          rm -rf /Applications/Xcode*
+          unzip xc.zip
+          rm xc.zip
+          unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip /Applications/
 
-          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/4ab058bc1c53034b8c0a9baca6fba2d2b78bb965.asset/AssetData/Restore
+          ls -la /Applications/
+
+          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+          xcodebuild -downloadComponent MetalToolchain
+
+          sleep 1
+          xcrun metal --version || true
+          sleep 1
+          xcodebuild -version || true
+          sleep 1
+          xcode-select -p || true
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: 850
+          path: /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset
