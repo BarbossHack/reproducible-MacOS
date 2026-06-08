@@ -17,12 +17,12 @@ jobs:
           echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
-          sudo ls -lsahZ /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
+          sudo ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 2
           sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
           sudo unzip 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip -d /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/
           sleep 1
-          sudo ls -lsahZ /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
+          sudo ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 2
 
           xcrun metal --version
