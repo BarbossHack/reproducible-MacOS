@@ -25,8 +25,10 @@ jobs:
           sleep 1
           sudo ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 2
+          sudo ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/
+          sleep 5
 
-          sudo cryptexctl install /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/*.dmg
+          sudo hdiutil attach /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/*.dmg -mountpoint "/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0" -nobrowse
 
           # xcodebuild -downloadComponent MetalToolchain
           sleep 5
