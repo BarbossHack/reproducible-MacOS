@@ -19,6 +19,8 @@ jobs:
 
           sudo ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 2
+          sudo ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/
+          sleep 2
           sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
           sudo unzip 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip -d /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/
           sudo chown -R _nsurlsessiond:wheel /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/
@@ -29,6 +31,9 @@ jobs:
           sleep 5
 
           sudo hdiutil attach /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/*.dmg -mountpoint "/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0" -nobrowse
+
+          sudo ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0/
+          sleep 5
 
           # xcodebuild -downloadComponent MetalToolchain
           sleep 5
