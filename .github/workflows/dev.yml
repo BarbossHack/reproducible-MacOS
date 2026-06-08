@@ -30,14 +30,16 @@ jobs:
           sudo ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/
           sleep 5
 
-          sudo hdiutil attach /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Restore/*.dmg -mountpoint "/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0" -nobrowse
+          sudo mkdir -p /Library/Developer/Toolchains/
+          sudo cp -R /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset/AssetData/Metal.xctoolchain /Library/Developer/Toolchains/Metal_850.xctoolchain
 
-          sudo ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0/
+          cat /Library/Developer/Toolchains/Metal_850.xctoolchain/ToolchainInfo.plist
+          sleep 5
+          cat /Library/Developer/Toolchains/Metal_850.xctoolchain/ToolchainInfo.plist | grep -A1 Identifier
           sleep 5
 
-          sudo echo "127.0.0.1 mesu.apple.com" >> /etc/hosts
-          sudo cat /etc/hosts
-          sleep 2
-          xcodebuild -downloadComponent MetalToolchain
+          export TOOLCHAINS=Metal_850
+
+          # xcodebuild -downloadComponent MetalToolchain
           sleep 5
           xcrun metal --version
