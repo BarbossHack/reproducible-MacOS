@@ -31,6 +31,7 @@ jobs:
 
           xcodebuild -downloadComponent MetalToolchain
 
+          xcodebuild -importComponent MetalToolchain -importPath /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/ae6c58470d7c9cd49b7857ebad1f170cf0fa102e.asset/AssetData/Restore/022-19852-235.dmg
 
           # xcodebuild -importComponent metalToolchain ./extracted/AssetData/Restore/022-20660-054.dmg || true
           # xcodebuild -importComponent metalToolchain -importPath ./extracted/AssetData/Restore/022-20660-054.dmg || true
