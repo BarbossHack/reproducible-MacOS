@@ -32,26 +32,10 @@ jobs:
           xcrun metal --version
 
           sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
-
-          mkdir hore
-          xcodebuild -downloadComponent MetalToolchain -exportPath ./hore
-
-
-          sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
-
-          ls -lsah ./hore/MetalToolchain-17E188.exportedBundle
-          sleep 5
-          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
-          sleep 5
-          xcodebuild -importComponent MetalToolchain -importPath ./hore/MetalToolchain-17E188.exportedBundle
+          curl -LO "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/MetalToolchain-17C48.exportedBundle.zip"
+          unzip MetalToolchain-17C48.exportedBundle.zip
+          xcodebuild -importComponent MetalToolchain -importPath ./MetalToolchain-17E188.exportedBundle
 
           ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 5
           xcrun metal --version
-
-          # xcodebuild -importComponent metalToolchain ./extracted/AssetData/Restore/022-20660-054.dmg || true
-          # xcodebuild -importComponent metalToolchain -importPath ./extracted/AssetData/Restore/022-20660-054.dmg || true
-          # xcodebuild -showComponent metalToolchain || true
-          # xcodebuild --help || true
-          # sleep 5
-          # xcrun metal --version
