@@ -19,6 +19,20 @@ jobs:
           xcrun metal --version
 
           xcodebuild --help || true
+          sleep 5
+
+          xcodebuild -deleteComponent MetalToolchain
+
+          ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
+          sleep 1
+          ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/
+          sleep 1
+          xcodebuild -showComponent MetalToolchain || true
+          sleep 1
+          xcrun metal --version || true
+          sleep 1
+
+          echo "-------------------------------------------------------------------------------------------------"
 
           sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
           sudo rm -rf /private/var/run/com.apple.security.cryptexd/mnt/*
@@ -27,9 +41,9 @@ jobs:
           xcodebuild -importComponent MetalToolchain -importPath ./MetalToolchain-17C48.exportedBundle
 
           xcodebuild -showComponent MetalToolchain
-
+          sleep 1
           ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
-          sleep 5
+          sleep 1
           ls -lsah /private/var/run/com.apple.security.cryptexd/mnt/
-          sleep 5
+          sleep 1
           xcrun metal --version
