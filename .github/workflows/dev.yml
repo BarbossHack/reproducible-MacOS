@@ -36,6 +36,8 @@ jobs:
           unzip MetalToolchain-17C48.exportedBundle.zip
           xcodebuild -importComponent MetalToolchain -importPath ./MetalToolchain-17C48.exportedBundle
 
+          xcodebuild -showComponent MetalToolchain
+
           ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 5
           xcrun metal --version
