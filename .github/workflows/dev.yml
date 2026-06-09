@@ -20,13 +20,14 @@ jobs:
           sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
           sudo unzip 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip -d ./extracted
 
-          sudo mkdir -p /Library/Developer/Toolchains/
+          sudo mkdir -p /Library/Developer/Toolchains/Metal_850.xctoolchain
           hdiutil attach ./extracted/AssetData/Restore/022-20660-054.dmg -mountpoint ./mounted/ -nobrowse -quiet
 
-          sudo ditto ./mounted/Metal.xctoolchain /Library/Developer/Toolchains/
+          sudo ditto ./mounted/Metal.xctoolchain /Library/Developer/Toolchains/Metal_850.xctoolchain/
           sudo ls -lsah /Library/Developer/Toolchains/
 
           export TOOLCHAINS=com.apple.dt.toolchain.Metal.32023
+          echo TOOLCHAINS=com.apple.dt.toolchain.Metal.32023 >> "$GITHUB_ENV"
 
           # xcodebuild -downloadComponent MetalToolchain
           sleep 5
