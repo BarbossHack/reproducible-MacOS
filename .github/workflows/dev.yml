@@ -36,6 +36,9 @@ jobs:
           mkdir hore
           xcodebuild -downloadComponent MetalToolchain -exportPath ./hore
 
+
+          sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
+
           ls -lsah ./hore/MetalToolchain-17E188.exportedBundle
           sleep 5
           ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
