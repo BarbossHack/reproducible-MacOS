@@ -9,30 +9,32 @@ jobs:
     steps:
       - run: |
           set -x
-          curl -L "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip" -o 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip
+          # curl -L "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip" -o 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip
 
-          rm -rf /Applications/Xcode.app
-          ditto /Applications/Xcode_26.2.app /Applications/Xcode.app
-          rm -rf /Applications/Xcode_*
-          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
-          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          # rm -rf /Applications/Xcode.app
+          # ditto /Applications/Xcode_26.2.app /Applications/Xcode.app
+          # rm -rf /Applications/Xcode_*
+          # echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
+          # sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
-          sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
-          sudo unzip 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip -d ./extracted
+          # sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
+          # sudo unzip 0bc538ab0cfa107625f77ad7bcfa566abe43e917.asset.zip -d ./extracted
 
-          sudo mkdir -p /Library/Developer/Toolchains/Metal_850.xctoolchain
-          hdiutil attach ./extracted/AssetData/Restore/022-20660-054.dmg -mountpoint ./mounted/ -nobrowse -quiet
+          # sudo mkdir -p /Library/Developer/Toolchains/Metal_850.xctoolchain
+          # hdiutil attach ./extracted/AssetData/Restore/022-20660-054.dmg -mountpoint ./mounted/ -nobrowse -quiet
 
-          sudo ditto ./mounted/Metal.xctoolchain /Library/Developer/Toolchains/Metal_850.xctoolchain/
-          sudo ls -lsah /Library/Developer/Toolchains/
+          # sudo ditto ./mounted/Metal.xctoolchain /Library/Developer/Toolchains/Metal_850.xctoolchain/
+          # sudo ls -lsah /Library/Developer/Toolchains/
 
-          export TOOLCHAINS=com.apple.dt.toolchain.Metal.32023
-          echo TOOLCHAINS=com.apple.dt.toolchain.Metal.32023 >> "$GITHUB_ENV"
+          # export TOOLCHAINS=com.apple.dt.toolchain.Metal.32023
+          # echo TOOLCHAINS=com.apple.dt.toolchain.Metal.32023 >> "$GITHUB_ENV"
 
-          # xcodebuild -downloadComponent MetalToolchain
-          xcodebuild -importComponent metalToolchain ./extracted/AssetData/Restore/022-20660-054.dmg || true
-          xcodebuild -importComponent metalToolchain -importPath ./extracted/AssetData/Restore/022-20660-054.dmg || true
-          xcodebuild -showComponent metalToolchain || true
-          xcodebuild --help || true
-          sleep 5
-          xcrun metal --version
+          xcodebuild -downloadComponent MetalToolchain
+
+
+          # xcodebuild -importComponent metalToolchain ./extracted/AssetData/Restore/022-20660-054.dmg || true
+          # xcodebuild -importComponent metalToolchain -importPath ./extracted/AssetData/Restore/022-20660-054.dmg || true
+          # xcodebuild -showComponent metalToolchain || true
+          # xcodebuild --help || true
+          # sleep 5
+          # xcrun metal --version
