@@ -14,28 +14,31 @@ jobs:
     steps:
       - run: |
           set -x
-          curl -L "https://alt-eu-central-1-12.transferxl-download.com/m-euc1-11/0901eb6beb2ead087dd73db0ad174f87-0.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VRUC2IB382WVAN635LVP%2F20260609%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260609T194619Z&X-Amz-Expires=900&X-Amz-Signature=d1e20bb8f9b9c7a0fc4b0d680d567d3519f7d83962cb017e1e19700d89c0c7d7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22TransferXL-08VKqd7HHD9Gg.zip%22" -o xc.zip
-          rm -rf /Applications/Xcode*
-          unzip xc.zip
-          rm xc.zip
-          unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip /Applications/
+          # curl -L "https://alt-eu-central-1-12.transferxl-download.com/m-euc1-11/0901eb6beb2ead087dd73db0ad174f87-0.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VRUC2IB382WVAN635LVP%2F20260609%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260609T194619Z&X-Amz-Expires=900&X-Amz-Signature=d1e20bb8f9b9c7a0fc4b0d680d567d3519f7d83962cb017e1e19700d89c0c7d7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22TransferXL-08VKqd7HHD9Gg.zip%22" -o xc.zip
+          # rm -rf /Applications/Xcode*
+          # unzip xc.zip
+          # rm xc.zip
+          # unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip /Applications/
 
           ls -la /Applications/
 
-          echo DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer >> "$GITHUB_ENV"
-          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          echo DEVELOPER_DIR=/Applications/Xcode_26.2.app/Contents/Developer >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
+
+          xcodebuild -showComponent MetalToolchain && sleep 1 || true
+          xcrun metal --version && sleep 1 || true
+          xcodebuild -version && sleep 1 || true
+          xcode-select -p && sleep 1 || true
 
           mkdir ./export
           xcodebuild -downloadComponent MetalToolchain -exportPath ./export
 
-          sleep 1
-          xcrun metal --version || true
-          sleep 1
-          xcodebuild -version || true
-          sleep 1
-          xcode-select -p || true
+          xcodebuild -showComponent MetalToolchain && sleep 1 || true
+          xcrun metal --version && sleep 1 || true
+          xcodebuild -version && sleep 1 || true
+          xcode-select -p && sleep 1 || true
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: 850
+          name: export
           path: ./export
