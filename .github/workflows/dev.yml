@@ -37,7 +37,9 @@ jobs:
           sudo rm -rf /private/var/run/com.apple.security.cryptexd/mnt/*
           curl -LO "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/MetalToolchain-17C48.exportedBundle.zip"
           unzip MetalToolchain-17C48.exportedBundle.zip
-          sed -i 's|<string>17C48</string>|<string>17C7003j</string>|g' ./MetalToolchain-17C48.exportedBundle/ExportMetadata.plist
+          sed -i '' 's|<string>17C48</string>|<string>17C7003j</string>|g' ./MetalToolchain-17C48.exportedBundle/ExportMetadata.plist
+          cat ./MetalToolchain-17C48.exportedBundle/ExportMetadata.plist
+          sleep 5
           xcodebuild -importComponent MetalToolchain -importPath ./MetalToolchain-17C48.exportedBundle
 
           xcodebuild -showComponent MetalToolchain
