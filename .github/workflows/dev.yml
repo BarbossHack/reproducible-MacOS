@@ -34,7 +34,7 @@ jobs:
           sudo rm -rf /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/*.asset
           curl -LO "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Xcode/MetalToolchain-17C48.exportedBundle.zip"
           unzip MetalToolchain-17C48.exportedBundle.zip
-          xcodebuild -importComponent MetalToolchain -importPath ./MetalToolchain-17E188.exportedBundle
+          xcodebuild -importComponent MetalToolchain -importPath ./MetalToolchain-17C48.exportedBundle
 
           ls -lsah /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/
           sleep 5
