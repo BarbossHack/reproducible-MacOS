@@ -29,9 +29,12 @@ jobs:
           # export TOOLCHAINS=com.apple.dt.toolchain.Metal.32023
           # echo TOOLCHAINS=com.apple.dt.toolchain.Metal.32023 >> "$GITHUB_ENV"
 
-          xcodebuild -downloadComponent MetalToolchain
+          mkdir hore
+          xcodebuild -downloadComponent MetalToolchain -exportPath ./hore
 
-          xcodebuild -importComponent MetalToolchain -importPath /System/Library/AssetsV2/com_apple_MobileAsset_MetalToolchain/ae6c58470d7c9cd49b7857ebad1f170cf0fa102e.asset/AssetData/Restore/022-19852-235.dmg
+          ls -lsah ./hore/
+          sleep 5
+          xcodebuild -importComponent MetalToolchain -importPath ./hore
 
           # xcodebuild -importComponent metalToolchain ./extracted/AssetData/Restore/022-20660-054.dmg || true
           # xcodebuild -importComponent metalToolchain -importPath ./extracted/AssetData/Restore/022-20660-054.dmg || true
