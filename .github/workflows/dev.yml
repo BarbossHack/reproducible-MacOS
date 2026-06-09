@@ -30,5 +30,7 @@ jobs:
           echo TOOLCHAINS=com.apple.dt.toolchain.Metal.32023 >> "$GITHUB_ENV"
 
           # xcodebuild -downloadComponent MetalToolchain
+          xcodebuild -showComponent metalToolchain || true
+          xcodebuild --help || true
           sleep 5
           xcrun metal --version
