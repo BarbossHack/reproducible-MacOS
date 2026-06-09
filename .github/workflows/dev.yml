@@ -32,9 +32,9 @@ jobs:
           mkdir hore
           xcodebuild -downloadComponent MetalToolchain -exportPath ./hore
 
-          ls -lsah ./hore/
+          ls -lsah ./hore/MetalToolchain-17E188.exportedBundle
           sleep 5
-          xcodebuild -importComponent MetalToolchain -importPath ./hore
+          xcodebuild -importComponent MetalToolchain -importPath ./hore/MetalToolchain-17E188.exportedBundle
 
           # xcodebuild -importComponent metalToolchain ./extracted/AssetData/Restore/022-20660-054.dmg || true
           # xcodebuild -importComponent metalToolchain -importPath ./extracted/AssetData/Restore/022-20660-054.dmg || true
