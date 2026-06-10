@@ -1,0 +1,17 @@
+name: ubuntu
+
+on:
+  push:
+
+jobs:
+  dev:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          set -x
+
+          ls -lsah /usr/local/lib/android/sdk/build-tools/
+          ls -lsah /usr/local/lib/android/sdk/build-tools/36.1.0/
+
+          which aapt || true
+          which aapt2 || true
