@@ -20,8 +20,6 @@ jobs:
           # rm xc.zip
           # unxip Xcode_26.2_Release_Candidate_Apple_silicon.xip /Applications/
 
-          ls -la /Applications/
-
           echo DEVELOPER_DIR=/Applications/Xcode_26.2.app/Contents/Developer >> "$GITHUB_ENV"
           sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
 
