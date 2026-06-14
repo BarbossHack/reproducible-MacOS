@@ -9,11 +9,12 @@ jobs:
   applestore-verify:
     runs-on: macos-26
     steps:
+      - name: Download AppleStore IPA
+        run: curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Telegram-iOS/org.whispersystems.signal_${{ inputs.VERSION }}.decrypted.ipa" -o Signal-appstore.ipa
       - name: build
         run: |
           set -x
 
-          # Build in canonical path used by Telegram
           cd /Users/Shared/
 
           git clone --depth 1 --recurse-submodules https://github.com/signalapp/Signal-iOS -b ${{ env.VERSION }}
@@ -55,8 +56,12 @@ jobs:
             COPY_PHASE_STRIP=YES \
             build
 
-          cd build
+          cd /Users/Shared/Signal-iOS/build
           codesign --force --deep --sign - Signal.app
+
+          mkdir -p Payload
+          cp -R Signal.app Payload/
+          zip -qr Signal.ipa Payload/
       - name: debug
         run: |
           set -x
@@ -71,4 +76,8 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: applestore-build
-          path: /Users/Shared/Signal-iOS/build/Signal.app
+          path: /Users/Shared/Signal-iOS/build/Signal.ipa
+      - name: Verify reproducibility
+        run: |
+          git clone https://github.com/TelegramMessenger/Telegram-iOS --depth 1
+          python Telegram-iOS/tools/ipadiff.py /Users/Shared/Signal-iOS/build/Signal.ipa Signal-appstore.ipa
