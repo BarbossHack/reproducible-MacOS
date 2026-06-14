@@ -37,16 +37,13 @@ jobs:
           xcodebuild -version && sleep 1 || true
           xcode-select -p && sleep 1 || true
 
-          NSUnbufferedIO=YES xcodebuild -workspace Signal.xcworkspace -scheme Signal -disableAutomaticPackageResolution -allowProvisioningUpdates build
+          NSUnbufferedIO=YES xcodebuild \
+            -workspace Signal.xcworkspace \
+            -scheme Signal \
+            -disableAutomaticPackageResolution \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
           find . -name "*.ipa"
-
-  notify:
-    needs: [applestore-verify]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - uses: BarbossHack/reproducible/.github/actions/discord-webhook@master
-        with:
-          VERSION: ${{ inputs.VERSION }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          needs: ${{ toJSON(needs) }}
