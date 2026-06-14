@@ -37,15 +37,23 @@ jobs:
           xcodebuild -version && sleep 1 || true
           xcode-select -p && sleep 1 || true
 
+          BUILD_DIR="/Users/Shared/Signal-iOS/build"
+
           NSUnbufferedIO=YES xcodebuild \
             -workspace Signal.xcworkspace \
             -scheme Signal \
             -disableAutomaticPackageResolution \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination 'generic/platform=iOS' \
+            CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             -configuration "App Store Release" \
             build
-      - name: find
-        run: find /Users/Shared/ -name "*.ipa"
+
+          ls -lsah "$BUILD_DIR"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: applestore-build
+          path: /Users/Shared/Signal-iOS/build/Signal.app
