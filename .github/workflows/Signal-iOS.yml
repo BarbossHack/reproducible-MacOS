@@ -37,7 +37,7 @@ jobs:
           xcodebuild -version && sleep 1 || true
           xcode-select -p && sleep 1 || true
 
-          NSUnbufferedIO=YES xcodebuild -workspace Signal.xcworkspace -scheme Signal -disableAutomaticPackageResolution build
+          NSUnbufferedIO=YES xcodebuild -workspace Signal.xcworkspace -scheme Signal -disableAutomaticPackageResolution -allowProvisioningUpdates build
           find . -name "*.ipa"
 
   notify:
