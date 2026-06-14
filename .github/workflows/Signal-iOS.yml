@@ -37,21 +37,34 @@ jobs:
           xcodebuild -version && sleep 1 || true
           xcode-select -p && sleep 1 || true
 
-          BUILD_DIR="/Users/Shared/Signal-iOS/build"
+          export NSUnbufferedIO=YES
 
-          NSUnbufferedIO=YES xcodebuild \
+          xcodebuild \
             -workspace Signal.xcworkspace \
             -scheme Signal \
             -disableAutomaticPackageResolution \
             -destination 'generic/platform=iOS' \
-            CONFIGURATION_BUILD_DIR="$BUILD_DIR" \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
+            -archivePath build/Signal.xcarchive \
+            CONFIGURATION_BUILD_DIR=build \
+            CODE_SIGNING_ALLOWED=YES \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGN_IDENTITY="-" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
             -configuration "App Store Release" \
-            build
-
-          ls -lsah "$BUILD_DIR"
+            DEPLOYMENT_POSTPROCESSING=YES \
+            STRIP_INSTALLED_PRODUCT=YES \
+            COPY_PHASE_STRIP=YES \
+            archive
+      - name: debug
+        run: |
+          set -x
+          ls -lsah /Users/Shared/Signal-iOS/build
+          sleep 2
+          ls -lsah /Users/Shared/Signal-iOS/build/Signal.app
+          sleep 2
+          ls -lsah /Users/Shared/Signal-iOS/build/Payload || true
+          sleep 2
+          find /Users/Shared/ -name "*.ipa"
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
