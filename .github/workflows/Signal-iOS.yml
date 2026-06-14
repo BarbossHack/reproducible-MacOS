@@ -17,9 +17,10 @@ jobs:
         run: |
           set -x
 
-          cd /Users/Shared/
+          # Build in canonical path used by Signal
+          cd /Volumes/workspace/
 
-          git clone --depth 1 --recurse-submodules https://github.com/signalapp/Signal-iOS -b ${{ env.VERSION }}
+          git clone --depth 1 --recurse-submodules https://github.com/signalapp/Signal-iOS -b "${{ env.VERSION }}" repository
           cd Signal-iOS
           make dependencies
 
@@ -46,7 +47,7 @@ jobs:
             -scheme Signal \
             -disableAutomaticPackageResolution \
             -destination 'generic/platform=iOS' \
-            CONFIGURATION_BUILD_DIR="/Users/Shared/Signal-iOS/build" \
+            CONFIGURATION_BUILD_DIR="/Volumes/workspace/repository/build" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
@@ -55,10 +56,13 @@ jobs:
             DEPLOYMENT_POSTPROCESSING=YES \
             STRIP_INSTALLED_PRODUCT=YES \
             COPY_PHASE_STRIP=YES \
+            CLANG_COVERAGE_MAPPING=NO \
+            GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
+            GCC_GENERATE_TEST_COVERAGE_FILES=NO \
             build
 
           # Manual Ad-Hoc sign
-          cd /Users/Shared/Signal-iOS/build
+          cd /Volumes/workspace/repository/build
           if [ -d "Signal.app/Frameworks" ]; then
               for fwk in Signal.app/Frameworks/*.framework; do
                   if [ -d "$fwk" ]; then
@@ -82,8 +86,8 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: applestore-build
-          path: /Users/Shared/Signal-iOS/build/Signal.ipa
+          path: /Volumes/workspace/repository/build/Signal.ipa
       - name: Verify reproducibility
         run: |
           git clone https://github.com/TelegramMessenger/Telegram-iOS --depth 1
-          python Telegram-iOS/tools/ipadiff.py /Users/Shared/Signal-iOS/build/Signal.ipa Signal-appstore.ipa
+          python Telegram-iOS/tools/ipadiff.py /Volumes/workspace/repository/build/Signal.ipa Signal-appstore.ipa
