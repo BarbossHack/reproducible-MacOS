@@ -44,7 +44,6 @@ jobs:
             -scheme Signal \
             -disableAutomaticPackageResolution \
             -destination 'generic/platform=iOS' \
-            -archivePath build/Signal.xcarchive \
             CONFIGURATION_BUILD_DIR=build \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
@@ -54,7 +53,7 @@ jobs:
             DEPLOYMENT_POSTPROCESSING=YES \
             STRIP_INSTALLED_PRODUCT=YES \
             COPY_PHASE_STRIP=YES \
-            archive
+            build
 
           cd build
           codesign --force --deep --sign - Signal.app
