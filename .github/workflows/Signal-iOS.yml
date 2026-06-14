@@ -1,0 +1,52 @@
+name: Signal-iOS
+
+on: push
+
+env:
+  VERSION: 8.14.0.1637
+
+jobs:
+  applestore-verify:
+    runs-on: macos-26
+    steps:
+      - name: build
+        run: |
+          set -x
+
+          # Build in canonical path used by Telegram
+          cd /Users/Shared/
+
+          git clone --depth 1 --recurse-submodules https://github.com/signalapp/Signal-iOS -b ${{ env.VERSION }}
+          cd Signal-iOS
+          make dependencies
+
+          XCODE_VERSION=$(cat .xcode-version | cut -d' ' -f2)
+          VERSION_CODE=$(echo "${{ env.VERSION }}" | awk -F. '{print $NF}')
+
+          # Select the Xcode version used in .xcode-version
+          echo DEVELOPER_DIR="/Applications/Xcode_${XCODE_VERSION}.app" >> "$GITHUB_ENV"
+          sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
+
+          Scripts/check_xcode_version.py --relaxed
+
+          xcodebuild -downloadComponent MetalToolchain
+          sleep 1
+
+          xcodebuild -showComponent MetalToolchain && sleep 1 || true
+          xcrun metal --version && sleep 1 || true
+          xcodebuild -version && sleep 1 || true
+          xcode-select -p && sleep 1 || true
+
+          NSUnbufferedIO=YES xcodebuild -workspace Signal.xcworkspace -scheme Signal -disableAutomaticPackageResolution build
+          find . -name "*.ipa"
+
+  notify:
+    needs: [applestore-verify]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: BarbossHack/reproducible/.github/actions/discord-webhook@master
+        with:
+          VERSION: ${{ inputs.VERSION }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          needs: ${{ toJSON(needs) }}
