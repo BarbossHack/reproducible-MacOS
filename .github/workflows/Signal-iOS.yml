@@ -24,7 +24,6 @@ jobs:
           make dependencies
 
           XCODE_VERSION=$(cat .xcode-version | cut -d' ' -f2)
-          VERSION_CODE=$(echo "${{ env.VERSION }}" | awk -F. '{print $NF}')
 
           # Select the Xcode version used in .xcode-version
           echo DEVELOPER_DIR="/Applications/Xcode_${XCODE_VERSION}.app" >> "$GITHUB_ENV"
@@ -58,22 +57,27 @@ jobs:
             COPY_PHASE_STRIP=YES \
             build
 
+          # Manual Ad-Hoc sign
           cd /Users/Shared/Signal-iOS/build
-          codesign --force --deep --sign - Signal.app
+          if [ -d "Signal.app/Frameworks" ]; then
+              for fwk in Signal.app/Frameworks/*.framework; do
+                  if [ -d "$fwk" ]; then
+                      codesign --force --sign - "$fwk"
+                  fi
+              done
+          fi
+          if [ -d "Signal.app/PlugIns" ]; then
+              for appex in Signal.app/PlugIns/*.appex; do
+                  if [ -d "$appex" ]; then
+                      codesign --force --sign - "$appex"
+                  fi
+              done
+          fi
+          codesign --force --sign - Signal.app
 
           mkdir -p Payload
           cp -R Signal.app Payload/
           zip -qr Signal.ipa Payload/
-      - name: debug
-        run: |
-          set -x
-          ls -lsah /Users/Shared/Signal-iOS/build
-          sleep 2
-          ls -lsah /Users/Shared/Signal-iOS/build/Signal.app
-          sleep 2
-          ls -lsah /Users/Shared/Signal-iOS/build/Payload || true
-          sleep 2
-          find /Users/Shared/ -name "*.ipa"
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
