@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Download AppleStore IPA
         run: |
-          canonical_version=$(echo ${{ env.VERSION }} | cut -d. -f1,2)
-          curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Telegram-iOS/org.whispersystems.signal_${canonical_version}.decrypted.ipa" -o Signal-appstore.ipa
+          export canonical_version=$(echo "${{ env.VERSION }}" | cut -d. -f1,2)
+          curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Signal-iOS/org.whispersystems.signal_${canonical_version}.decrypted.ipa" -o Signal-appstore.ipa
       - name: build
         run: |
           set -x
