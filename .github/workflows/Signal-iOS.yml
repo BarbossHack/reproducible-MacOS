@@ -46,15 +46,18 @@ jobs:
             -destination 'generic/platform=iOS' \
             -archivePath build/Signal.xcarchive \
             CONFIGURATION_BUILD_DIR=build \
-            CODE_SIGNING_ALLOWED=YES \
-            CODE_SIGNING_REQUIRED=YES \
-            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             -configuration "App Store Release" \
             DEPLOYMENT_POSTPROCESSING=YES \
             STRIP_INSTALLED_PRODUCT=YES \
             COPY_PHASE_STRIP=YES \
             archive
+
+          cd build
+          codesign --force --deep --sign - Signal.app
       - name: debug
         run: |
           set -x
