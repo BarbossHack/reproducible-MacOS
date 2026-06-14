@@ -21,6 +21,8 @@ jobs:
           id
           ls -lsah
           sudo mkdir -p /Volumes/workspace/
+          sudo chown runner:staff /Volumes/workspace
+          ls -lsah /Volumes/
           cd /Volumes/workspace/
 
           git clone --depth 1 --recurse-submodules https://github.com/signalapp/Signal-iOS -b "${{ env.VERSION }}" repository
