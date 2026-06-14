@@ -44,7 +44,7 @@ jobs:
             -scheme Signal \
             -disableAutomaticPackageResolution \
             -destination 'generic/platform=iOS' \
-            CONFIGURATION_BUILD_DIR=build \
+            CONFIGURATION_BUILD_DIR="/Users/Shared/Signal-iOS/build" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
