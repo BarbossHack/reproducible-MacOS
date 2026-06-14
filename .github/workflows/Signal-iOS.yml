@@ -45,5 +45,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            -configuration Release \
             build
-          find . -name "*.ipa"
+      - name: find
+        run: find /Users/Shared/ -name "*.ipa"
