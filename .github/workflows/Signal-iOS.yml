@@ -18,6 +18,7 @@ jobs:
           set -x
 
           # Build in canonical path used by Signal
+          mkdir -p /Volumes/workspace/
           cd /Volumes/workspace/
 
           git clone --depth 1 --recurse-submodules https://github.com/signalapp/Signal-iOS -b "${{ env.VERSION }}" repository
