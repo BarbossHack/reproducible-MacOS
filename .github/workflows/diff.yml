@@ -6,6 +6,7 @@ jobs:
   applestore-verify:
     runs-on: macos-26
     steps:
+      - uses: actions/checkout@v6
       - name: Download AppleStore IPA
         run: curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Signal-iOS/org.whispersystems.signal_8.14.decrypted.ipa" -o Signal-appstore.ipa
       - name: Download artifact from another workflow run
@@ -28,8 +29,8 @@ jobs:
           codesign --remove-signature $build
           codesign --remove-signature $official
 
-          strip -no_uuid $build
-          strip -no_uuid $official
+          python3 strip-uuid.py $build
+          python3 strip-uuid.py $official
 
           sha256sum $build
           sha256sum $official
