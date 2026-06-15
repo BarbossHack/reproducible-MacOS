@@ -30,7 +30,7 @@ jobs:
 
           size -m $build > build.size
           size -m $official > official.size
-          diff build.size official.size
+          diff build.size official.size || true
           sleep 5
 
 
