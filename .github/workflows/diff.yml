@@ -28,21 +28,24 @@ jobs:
           codesign --remove-signature $build
           codesign --remove-signature $official
 
-          size -m $build
+          size -m $build > build.size
+          size -m $official > official.size
+          diff build.size official.size
           sleep 5
-          size -m $official
-          sleep 5
+
 
           otool -l $build > commands_local.txt
           otool -l $official > commands_officiel.txt
-          sleep 5
-          diff -u commands_local.txt commands_officiel.txt || true
+          diff commands_local.txt commands_officiel.txt || true
           sleep 5
 
           strings -a -n 8 $build > build.string
           strings -a -n 8 $official > official.string
 
-          diff -u build.string official.string || true
+          ls -lsah
+          sleep 5
+
+          diff build.string official.string || true
           sleep 5
 
       - name: Upload artifacts debug diff
