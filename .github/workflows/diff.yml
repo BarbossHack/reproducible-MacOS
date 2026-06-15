@@ -48,12 +48,13 @@ jobs:
 
           strings -a -n 8 $build > build.string
           strings -a -n 8 $official > official.string
-
-          ls -lsah
-          sleep 5
-
           diff build.string official.string || true
           sleep 5
+
+          curl -sL "https://github.com/TelegramMessenger/Telegram-iOS/raw/refs/heads/master/tools/main.cpp" -o main.cpp
+          clang main.cpp -lc++ -o telediff
+          chmod +x telediff
+          ./telediff $build $official
 
       - name: Upload artifacts debug diff
         uses: actions/upload-artifact@v6
