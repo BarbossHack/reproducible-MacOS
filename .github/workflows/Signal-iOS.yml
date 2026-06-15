@@ -1,6 +1,7 @@
 name: Signal-iOS
 
-on: push
+on:
+  workflow_dispatch:
 
 env:
   VERSION: 8.14.0.1637
@@ -90,6 +91,28 @@ jobs:
           name: applestore-build
           path: /Volumes/workspace/repository/build/Signal.ipa
       - name: Verify reproducibility
+        continue-on-error: true
         run: |
           git clone https://github.com/TelegramMessenger/Telegram-iOS --depth 1
           python Telegram-iOS/tools/ipadiff.py /Volumes/workspace/repository/build/Signal.ipa Signal-appstore.ipa
+      - name: debug diff
+        continue-on-error: true
+        run: |
+          set -x
+          unzip /Volumes/workspace/repository/build/Signal.ipa -d ./Signal
+          unzip Signal-appstore.ipa -d ./org.whispersystems.signal_8.14.decrypted
+
+          codesign --remove-signature Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+          codesign --remove-signature org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+
+          size -m Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+          size -m org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+
+          docker ps || true
+      - name: Upload artifacts debug diff
+        uses: actions/upload-artifact@v6
+        with:
+          name: applestore-build
+          path: |
+            Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit
+            org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit

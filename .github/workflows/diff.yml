@@ -1,0 +1,45 @@
+name: diff
+
+on: push
+
+env:
+  VERSION: 8.14.0.1637
+
+jobs:
+  applestore-verify:
+    runs-on: macos-26
+    steps:
+      - name: Download AppleStore IPA
+        run: |
+          export canonical_version=$(echo "${{ env.VERSION }}" | cut -d. -f1,2)
+          curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Signal-iOS/org.whispersystems.signal_${canonical_version}.decrypted.ipa" -o Signal-appstore.ipa
+      - name: Download artifact from another workflow run
+        uses: actions/download-artifact@v8
+        with:
+          name: applestore-build
+          run-id: 27504935388
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: debug diff
+        continue-on-error: true
+        run: |
+          set -x
+          ls -lsah
+          unzip applestore-build.zip
+
+          unzip Signal.ipa -d ./Signal
+          unzip Signal-appstore.ipa -d ./org.whispersystems.signal_8.14.decrypted
+
+          codesign --remove-signature Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+          codesign --remove-signature org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+
+          size -m Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+          size -m org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+
+          docker ps || true
+      - name: Upload artifacts debug diff
+        uses: actions/upload-artifact@v6
+        with:
+          name: applestore-build
+          path: |
+            Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit
+            org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit
