@@ -2,17 +2,12 @@ name: diff
 
 on: push
 
-env:
-  VERSION: 8.14.0.1637
-
 jobs:
   applestore-verify:
     runs-on: macos-26
     steps:
       - name: Download AppleStore IPA
-        run: |
-          export canonical_version=$(echo "${{ env.VERSION }}" | cut -d. -f1,2)
-          curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Signal-iOS/org.whispersystems.signal_${canonical_version}.decrypted.ipa" -o Signal-appstore.ipa
+        run: curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Signal-iOS/org.whispersystems.signal_8.14.decrypted.ipa" -o Signal-appstore.ipa
       - name: Download artifact from another workflow run
         uses: actions/download-artifact@v8
         with:
@@ -24,16 +19,25 @@ jobs:
           set -x
           ls -lsah
 
-          unzip Signal.ipa -d ./Signal
-          unzip Signal-appstore.ipa -d ./org.whispersystems.signal_8.14.decrypted
+          unzip -q Signal.ipa -d ./Signal
+          unzip -q Signal-appstore.ipa -d ./org.whispersystems.signal_8.14.decrypted
 
-          codesign --remove-signature Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
-          codesign --remove-signature org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+          build="Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit"
+          official="org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit"
 
-          size -m Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
-          size -m org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit || true
+          codesign --remove-signature $build
+          codesign --remove-signature $official
 
-          docker ps || true
+          size -m $build
+          sleep 5
+          size -m $official
+          sleep 5
+
+          otool -l $build > commands_local.txt
+          otool -l $official > commands_officiel.txt
+          sleep 5
+          diff -u commands_local.txt commands_officiel.txt
+
       - name: Upload artifacts debug diff
         uses: actions/upload-artifact@v6
         with:
