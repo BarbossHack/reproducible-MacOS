@@ -28,6 +28,12 @@ jobs:
           codesign --remove-signature $build
           codesign --remove-signature $official
 
+          strip -no_uuid $build
+          strip -no_uuid $official
+
+          sha256sum $build
+          sha256sum $official
+
           size -m $build > build.size
           size -m $official > official.size
           diff build.size official.size || true
