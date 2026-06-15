@@ -20,11 +20,9 @@ jobs:
           run-id: 27504935388
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: debug diff
-        continue-on-error: true
         run: |
           set -x
           ls -lsah
-          unzip applestore-build.zip
 
           unzip Signal.ipa -d ./Signal
           unzip Signal-appstore.ipa -d ./org.whispersystems.signal_8.14.decrypted
