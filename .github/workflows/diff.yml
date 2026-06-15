@@ -36,7 +36,14 @@ jobs:
           otool -l $build > commands_local.txt
           otool -l $official > commands_officiel.txt
           sleep 5
-          diff -u commands_local.txt commands_officiel.txt
+          diff -u commands_local.txt commands_officiel.txt || true
+          sleep 5
+
+          strings -a -n 8 $build > build.string
+          strings -a -n 8 $official > official.string
+
+          diff -u build.string official.string || true
+          sleep 5
 
       - name: Upload artifacts debug diff
         uses: actions/upload-artifact@v6
