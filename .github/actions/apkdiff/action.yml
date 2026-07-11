@@ -18,9 +18,10 @@ runs:
       shell: bash
       run: |
         set -x
-        while IFS= read -r file; do
+        mapfile -t files <<< "${{ inputs.IGNORE_FILES }}"
+        for file in "${files[@]}"; do
           echo "<$file>"
-        done <<< "${{ inputs.IGNORE_FILES }}"
+        done
     - name: diff apks
       shell: bash
       run: |
