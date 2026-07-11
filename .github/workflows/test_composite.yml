@@ -8,12 +8,8 @@ jobs:
     steps:
       - uses: BarbossHack/reproducible-MacOS/.github/actions/apkdiff@master
         with:
-          APKS_A: |-
-            one.apk
-            one-2.apk
-          APKS_B: |-
-            two.apk
-            two-2.apk
+          APKS_A: one.apk
+          APKS_B: two.apk
           IGNORE_FILES: |-
             META-INF/FDROID.RSA
             META-INF/FDROID.SF
