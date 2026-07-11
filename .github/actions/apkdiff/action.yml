@@ -1,12 +1,12 @@
 name: "apkdiff"
 description: "Signal-Android apkdiff script as a reusable action."
 inputs:
-  APK_1:
+  APKS_A:
     required: true
-    description: "First APK file to compare."
-  APK_2:
+    description: "First set of APK files to compare."
+  APKS_B:
     required: true
-    description: "Second APK file to compare."
+    description: "Second set of APK files to compare."
   IGNORE_FILES:
     required: false
     description: "List of files to ignore during comparison."
@@ -21,3 +21,14 @@ runs:
         while IFS= read -r file; do
           echo "<$file>"
         done <<< "${{ inputs.IGNORE_FILES }}"
+    - name: diff apks
+      shell: bash
+      run: |
+        set -x
+        IFS=$'\n' read -d '' -r -a apks_a <<< "${{ inputs.APKS_A }}"
+        IFS=$'\n' read -d '' -r -a apks_b <<< "${{ inputs.APKS_B }}"
+        for i in "${!apks_a[@]}"; do
+          apk_a="${apks_a[$i]}"
+          apk_b="${apks_b[$i]}"
+          echo "Comparing $apk_a and $apk_b"
+        done
