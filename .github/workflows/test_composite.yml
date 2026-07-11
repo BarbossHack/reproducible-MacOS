@@ -10,6 +10,6 @@ jobs:
         with:
           APK_1: one.apk
           APK_2: two.apk
-          IGNORE_FILES: |
+          IGNORE_FILES: |-
             META-INF/FDROID.RSA
             META-INF/FDROID.SF
