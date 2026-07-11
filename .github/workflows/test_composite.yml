@@ -1,0 +1,15 @@
+name: diff
+
+on: push
+
+jobs:
+  test-composite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: BarbossHack/reproducible-MacOS/.github/actions/apkdiff@master
+        with:
+          APK_1: one.apk
+          APK_2: two.apk
+          IGNORE_FILES: |
+            META-INF/FDROID.RSA
+            META-INF/FDROID.SF
