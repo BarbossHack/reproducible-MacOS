@@ -6,6 +6,7 @@ jobs:
   test-composite:
     runs-on: ubuntu-latest
     steps:
+      - run: python --version
       - uses: BarbossHack/reproducible-MacOS/.github/actions/apkdiff@master
         with:
           APKS_A: one.apk
