@@ -13,6 +13,7 @@ jobs:
       - name: Download artifact from another workflow run
         uses: actions/download-artifact@v8
         with:
+          repository: BarbossHack/reproducible
           name: applestore-build
           run-id: 30257646794
           github-token: ${{ secrets.GITHUB_TOKEN }}
