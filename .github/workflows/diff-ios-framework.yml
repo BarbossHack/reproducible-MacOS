@@ -1,4 +1,4 @@
-name: diff
+name: diff-ios-framework
 
 on:
   workflow_dispatch:

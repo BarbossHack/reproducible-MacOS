@@ -1,6 +1,7 @@
-name: diff
+name: test_composite
 
-on: push
+on:
+  workflow_dispatch:
 
 jobs:
   test-composite:
