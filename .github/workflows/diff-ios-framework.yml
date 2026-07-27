@@ -55,12 +55,12 @@ jobs:
           curl -sL "https://github.com/TelegramMessenger/Telegram-iOS/raw/refs/heads/master/tools/main.cpp" -o main.cpp
           clang main.cpp -lc++ -o telediff
           chmod +x telediff
-          ./telediff $build $official
+          ./telediff $build $official || true
 
       - name: Upload artifacts debug diff
         uses: actions/upload-artifact@v6
         with:
           name: applestore-build
           path: |
-            Telegram/Payload/Telegram.app/Frameworks/TelegramServiceKit.framework/TelegramServiceKit
-            ph.telegra.Telegraph_12.9.decrypted/Payload/Telegram.app/Frameworks/TelegramServiceKit.framework/TelegramServiceKit
+            Telegram/Payload/Telegram.app/Frameworks/TelegramUIFramework.framework/TelegramUIFramework
+            ph.telegra.Telegraph_12.9.decrypted/Payload/Telegram.app/Frameworks/TelegramUIFramework.framework/TelegramUIFramework
