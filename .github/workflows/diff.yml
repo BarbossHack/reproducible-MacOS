@@ -9,23 +9,23 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Download AppleStore IPA
-        run: curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Signal-iOS/org.whispersystems.signal_8.14.decrypted.ipa" -o Signal-appstore.ipa
+        run: curl -sL --fail "https://github.com/BarbossHack/reproducible-LFS/raw/refs/heads/master/Telegram-iOS/ph.telegra.Telegraph_12.9.decrypted.ipa" -o Telegram-appstore.ipa
       - name: Download artifact from another workflow run
         uses: actions/download-artifact@v8
         with:
           name: applestore-build
-          run-id: 27504935388
+          run-id: 30257646794
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: debug diff
         run: |
           set -x
           ls -lsah
 
-          unzip -q Signal.ipa -d ./Signal
-          unzip -q Signal-appstore.ipa -d ./org.whispersystems.signal_8.14.decrypted
+          unzip -q Telegram.ipa -d ./Telegram
+          unzip -q Telegram-appstore.ipa -d ./ph.telegra.Telegraph_12.9.decrypted
 
-          build="Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit"
-          official="org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit"
+          build="Telegram/Payload/Telegram.app/Frameworks/TelegramUIFramework.framework/TelegramUIFramework"
+          official="ph.telegra.Telegraph_12.9.decrypted/Payload/Telegram.app/Frameworks/TelegramUIFramework.framework/TelegramUIFramework"
 
           codesign --remove-signature $build
           codesign --remove-signature $official
@@ -40,7 +40,6 @@ jobs:
           size -m $official > official.size
           diff build.size official.size || true
           sleep 5
-
 
           otool -l $build > commands_local.txt
           otool -l $official > commands_officiel.txt
@@ -62,5 +61,5 @@ jobs:
         with:
           name: applestore-build
           path: |
-            Signal/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit
-            org.whispersystems.signal_8.14.decrypted/Payload/Signal.app/Frameworks/SignalServiceKit.framework/SignalServiceKit
+            Telegram/Payload/Telegram.app/Frameworks/TelegramServiceKit.framework/TelegramServiceKit
+            ph.telegra.Telegraph_12.9.decrypted/Payload/Telegram.app/Frameworks/TelegramServiceKit.framework/TelegramServiceKit
